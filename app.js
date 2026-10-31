@@ -117,17 +117,13 @@ function renderSlots(type) {
   });
 }
 
-function openPicker(type) {
-  const picker = type === "ally" ? el.allyPicker : el.enemyPicker;
-  const other = type === "ally" ? el.enemyPicker : el.allyPicker;
-
-  other.classList.add("hidden");
-  picker.classList.remove("hidden");
-  renderPicker(type, "");
-}
-
 function renderPicker(type, search) {
   const picker = type === "ally" ? el.allyPicker : el.enemyPicker;
+
+  // Запоминаем, был ли курсор в поисковой строке и где он находился.
+  const oldInput = picker.querySelector(".search");
+  const wasFocused = oldInput === document.activeElement;
+  const cursorPosition = oldInput ? oldInput.selectionStart : search.length;
 
   const selectedIds = new Set([
     ...state.allies.map(hero => hero.id),
@@ -164,9 +160,15 @@ function renderPicker(type, search) {
   const input = picker.querySelector(".search");
 
   input.addEventListener("input", () => {
-    const value = input.value;
-    renderPicker(type, value);
+    renderPicker(type, input.value);
   });
+
+  // Возвращаем фокус и курсор в поисковую строку.
+  if (wasFocused) {
+    input.focus();
+    const position = Math.min(cursorPosition, input.value.length);
+    input.setSelectionRange(position, position);
+  }
 
   picker.querySelector("[data-close]").addEventListener("click", () => {
     picker.classList.add("hidden");
@@ -183,6 +185,13 @@ function renderPicker(type, search) {
       if (hero && list.length < 4) {
         list.push(hero);
       }
+
+      picker.classList.add("hidden");
+      renderSlots(type);
+      showPlaceholder();
+    });
+  });
+}
 
       picker.classList.add("hidden");
       renderSlots(type);
