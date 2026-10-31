@@ -1,3 +1,6 @@
+// Dota 2 Last Pick — отдельный браузерный помощник.
+// Не взаимодействует с игрой и не изменяет её файлы.
+
 const API = "https://api.opendota.com/api";
 const CDN = "https://cdn.cloudflare.steamstatic.com";
 
