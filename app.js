@@ -193,13 +193,6 @@ function renderPicker(type, search) {
   });
 }
 
-      picker.classList.add("hidden");
-      renderSlots(type);
-      showPlaceholder();
-    });
-  });
-}
-
 function showPlaceholder() {
   el.results.classList.add("empty");
   el.results.innerHTML = `
