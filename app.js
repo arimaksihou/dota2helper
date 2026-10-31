@@ -117,6 +117,21 @@ function renderSlots(type) {
   });
 }
 
+function openPicker(type) {
+  const picker = type === "ally"
+    ? el.allyPicker
+    : el.enemyPicker;
+
+  const otherPicker = type === "ally"
+    ? el.enemyPicker
+    : el.allyPicker;
+
+  otherPicker.classList.add("hidden");
+  picker.classList.remove("hidden");
+
+  renderPicker(type, "");
+}
+
 function renderPicker(type, search) {
   const picker = type === "ally" ? el.allyPicker : el.enemyPicker;
 
