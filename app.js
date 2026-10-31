@@ -118,18 +118,84 @@ function renderSlots(type) {
 }
 
 function openPicker(type) {
-  const picker = type === "ally"
-    ? el.allyPicker
-    : el.enemyPicker;
-
-  const otherPicker = type === "ally"
-    ? el.enemyPicker
-    : el.allyPicker;
+  const picker = type === "ally" ? el.allyPicker : el.enemyPicker;
+  const otherPicker = type === "ally" ? el.enemyPicker : el.allyPicker;
 
   otherPicker.classList.add("hidden");
   picker.classList.remove("hidden");
 
   renderPicker(type, "");
+}
+
+function renderPicker(type, search) {
+  const picker = type === "ally" ? el.allyPicker : el.enemyPicker;
+
+  const oldInput = picker.querySelector(".search");
+  const wasFocused = oldInput === document.activeElement;
+  const cursorPosition = oldInput ? oldInput.selectionStart : search.length;
+
+  const selectedIds = new Set([
+    ...state.allies.map(hero => hero.id),
+    ...state.enemies.map(hero => hero.id)
+  ]);
+
+  const filtered = state.heroes.filter(hero => {
+    return hero.localized_name.toLowerCase().includes(search.toLowerCase())
+      && !selectedIds.has(hero.id);
+  });
+
+  picker.innerHTML = `
+    <div class="picker-top">
+      <input class="search" type="search"
+             placeholder="Поиск героя..."
+             value="${safe(search)}">
+      <button class="ghost" type="button" data-close>Закрыть</button>
+    </div>
+
+    <div class="hero-grid">
+      ${filtered.map(hero => `
+        <button class="hero-btn" type="button"
+                data-hero-id="${hero.id}">
+          <img src="${imageUrl(hero)}" alt="">
+          <span>${safe(hero.localized_name)}</span>
+        </button>
+      `).join("")}
+    </div>
+  `;
+
+  const input = picker.querySelector(".search");
+
+  input.addEventListener("input", () => {
+    renderPicker(type, input.value);
+  });
+
+  if (wasFocused) {
+    input.focus();
+    const position = Math.min(cursorPosition, input.value.length);
+    input.setSelectionRange(position, position);
+  }
+
+  picker.querySelector("[data-close]").addEventListener("click", () => {
+    picker.classList.add("hidden");
+  });
+
+  picker.querySelectorAll("[data-hero-id]").forEach(button => {
+    button.addEventListener("click", () => {
+      const hero = state.heroes.find(
+        item => item.id === Number(button.dataset.heroId)
+      );
+
+      const list = type === "ally" ? state.allies : state.enemies;
+
+      if (!hero || list.length >= 5) return;
+
+      list.push(hero);
+
+      picker.classList.add("hidden");
+      renderSlots(type);
+      showPlaceholder();
+    });
+  });
 }
 
 function renderPicker(type, search) {
