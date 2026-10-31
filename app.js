@@ -84,7 +84,7 @@ function renderSlots(type) {
   const list = type === "ally" ? state.allies : state.enemies;
   const container = type === "ally" ? el.allies : el.enemies;
 
-  container.innerHTML = Array.from({ length: 4 }, (_, index) => {
+  container.innerHTML = Array.from({ length: 5 }, (_, index) => {
     const hero = list[index];
 
     if (!hero) {
