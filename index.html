@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dota 2 Last Pick</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <header class="hero-header">
+      <div>
+        <div class="eyebrow">DOTA 2 • DRAFT ASSISTANT</div>
+        <h1>LAST PICK</h1>
+        <p>Выбери роль, союзников и врагов — программа рассчитает лучшие варианты.</p>
+      </div>
+      <div id="status" class="status">Загрузка героев…</div>
+    </header>
+
+    <section class="panel">
+      <h2>1. Твоя роль</h2>
+      <div id="roles" class="role-grid"></div>
+    </section>
+
+    <section class="panel">
+      <div class="section-title">
+        <div>
+          <h2>2. Твоя команда</h2>
+          <p>Необязательно. Союзники влияют на синергию.</p>
+        </div>
+        <button id="clearAllies" class="ghost">Очистить</button>
+      </div>
+      <div id="allies" class="slots"></div>
+      <div id="allyPicker" class="picker hidden"></div>
+    </section>
+
+    <section class="panel">
+      <div class="section-title">
+        <div>
+          <h2>3. Команда врага</h2>
+          <p>Именно эти герои определяют контрпик.</p>
+        </div>
+        <button id="clearEnemies" class="ghost">Очистить</button>
+      </div>
+      <div id="enemies" class="slots"></div>
+      <div id="enemyPicker" class="picker hidden"></div>
+    </section>
+
+    <section class="panel result-panel">
+      <div class="section-title">
+        <div>
+          <h2>Лучшие варианты</h2>
+          <p id="resultHint">Выбери хотя бы одного врага.</p>
+        </div>
+        <button id="recalculate" class="primary">Рассчитать</button>
+      </div>
+      <div id="results" class="results empty">
+        <div class="empty-icon">⚔</div>
+        <div>Пока нет расчёта</div>
+      </div>
+    </section>
+
+    <footer>
+      <span>Работает отдельно от Dota 2 • ничего не устанавливает в папку игры</span>
+      <span>Источник matchup-данных: OpenDota</span>
+    </footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
