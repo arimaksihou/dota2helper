@@ -197,7 +197,7 @@ function renderPicker(type, search) {
 
       const list = type === "ally" ? state.allies : state.enemies;
 
-      if (hero && list.length < 4) {
+      if (hero && list.length < 5) {
         list.push(hero);
       }
 
