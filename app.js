@@ -421,18 +421,25 @@ async function init() {
   }
 }
 
-el.clearAllies.addEventListener("click", () => {
-  state.allies = [];
-  renderSlots("ally");
-  showPlaceholder();
+document.addEventListener("DOMContentLoaded", () => {
+  if (!el.allyPicker || !el.enemyPicker || !el.allies || !el.enemies) {
+    console.error("Не найдены элементы выбора героев в HTML");
+    return;
+  }
+
+  el.clearAllies.addEventListener("click", () => {
+    state.allies = [];
+    renderSlots("ally");
+    showPlaceholder();
+  });
+
+  el.clearEnemies.addEventListener("click", () => {
+    state.enemies = [];
+    renderSlots("enemy");
+    showPlaceholder();
+  });
+
+  el.recalculate.addEventListener("click", calculate);
+
+  init();
 });
-
-el.clearEnemies.addEventListener("click", () => {
-  state.enemies = [];
-  renderSlots("enemy");
-  showPlaceholder();
-});
-
-el.recalculate.addEventListener("click", calculate);
-
-init();
